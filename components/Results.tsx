@@ -48,7 +48,13 @@ const Results = ({
       dataIndex: "avatarUrl",
       key: "avatarUrl",
       render: (imgUrl: string) =>
-        imgUrl && <img src={imgUrl} style={{ maxWidth: 50 }} />,
+        imgUrl && (
+          <img
+            src={imgUrl}
+            style={{ maxWidth: 50 }}
+            alt={`${current?.name} avatar`}
+          />
+        ),
     },
     {
       title: "Name",

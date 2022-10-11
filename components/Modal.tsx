@@ -1,7 +1,13 @@
 import { SecurityScanOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal as AntdModal } from "antd";
+import { Button, Col, Form, Input, Modal as AntdModal, Row } from "antd";
 import { useForm } from "antd/lib/form/Form";
-import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
 import { RequestResultProps } from "./hooks/getData";
 import useRequest from "./hooks/useRequest";
 
@@ -33,10 +39,11 @@ const Modal = ({
     form.resetFields();
   }, [form, current]);
 
+  const isNew = useMemo(() => current == null, [current]);
+
   const onFinish = async (values: RequestResultProps["data"][0]) => {
     if (!isEditable) return;
 
-    const isNew = current == null;
     const method = isNew ? "POST" : "PATCH";
     const route = isNew ? "/users" : `/users/${current?.id}`;
     await postData(values, method, route);
@@ -67,6 +74,17 @@ const Modal = ({
         labelCol={{ span: 9 }}
         wrapperCol={{ span: 12 }}
       >
+        {current?.avatarUrl && (
+          <Row justify="center" style={{ paddingBottom: 15 }}>
+            <Col>
+              <img
+                src={current.avatarUrl}
+                style={{ maxWidth: 100 }}
+                alt={`${current?.name} avatar`}
+              />
+            </Col>
+          </Row>
+        )}
         <Form.Item
           label="Name"
           name="name"
@@ -116,9 +134,11 @@ const Modal = ({
           <Button type="dashed" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button type="primary" onClick={rescanFunc}>
-            Rescan <SecurityScanOutlined />
-          </Button>
+          {!isNew && (
+            <Button type="primary" onClick={rescanFunc}>
+              Rescan <SecurityScanOutlined />
+            </Button>
+          )}
         </Form.Item>
       </Form>
     </AntdModal>

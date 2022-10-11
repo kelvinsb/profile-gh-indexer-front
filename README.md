@@ -1,34 +1,63 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Description
 
-## Getting Started
+- Frontend to register and search profiles and then getting some data(scraping) from github
 
-First, run the development server:
+# Features
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+1. Register user
+   1. Providing name and a github profile
+   2. After a few moments will scrap data from his github profile and fill his corresponding row
+2. Search for registered users(list)
+   1. Pagination
+   2. Filter by name(looking between `name`, `githubProfile`, `organization`, `localization`)
+3. Edit profile
+4. Delete profile
+5. Request the rescan(1.2)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Missing things/features(backlog)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- Better layout decisions
+- Better code decisions(too much prop drilling)
+  - Maybe using React context
+  - Better architecture decisions: hooks and components
+  - Separate better business logic into hooks
+- Instant search on "key press", instead of using the button or "enter" to search
+  - Using debounce to prevent unnecessary requests
+- Responsive design
+- Deal with backend errors, such as
+  - User already in use
+  - Scan was realized less than 5 minutes ago
+  - Network problems
+- Automated tests
+- Notifications of actions, such as:
+  - Edited/created with success
+  - Error on CRUD
+  - Rescan initiated
+- Preserve the current state
+  - If on second page and deleted some item continue on same page instead of going to first page
+- Clean code
+- Check which functions/methods is more appropriate to use useCallback(prevent heavy interfaces and unnecessary renders)
+- Components with too much responsabilities
+  - Such as Modal both in UI and logic
+- Use a better flux to actions on table/list
+  - When editing some item, instead of requesting again for pagination just update the item of the list
+    - Maybe using `react-query` with his powerful features or just doing on logic
+- Cache items
+  - `react-query`
+- Modal button are too close(better spacing between them)
+- On the list use less fields(more detailed things on view/edit)
+- Use of accessibility techniques such as `aria` and more appropriate "tags"
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Project dependency
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- `profile_gh_indexer`
 
-## Learn More
+## Dependencies
 
-To learn more about Next.js, take a look at the following resources:
+- `yarn` or `npm`
+- Install dependencies running `yarn install` or `npm install`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Run local
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- `yarn dev` or `npm run dev`
+- open http://localhost:3001
